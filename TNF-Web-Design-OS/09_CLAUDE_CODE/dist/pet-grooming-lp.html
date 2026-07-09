@@ -1,0 +1,588 @@
+<title>ぷくぷくグルーミング | ワンちゃんネコちゃんの美容室</title>
+<style>
+  :root {
+    --bg: #FFF9EF;
+    --bg-alt: #FDEED9;
+    --ink: #3E2F23;
+    --ink-soft: #7A6A5B;
+    --coral: #FF7A59;
+    --coral-deep: #E85F3E;
+    --aqua: #3AA79B;
+    --aqua-soft: #D6EFEA;
+    --sun: #FFC94D;
+    --card: #FFFFFF;
+    --shadow: 0 6px 0 rgba(62, 47, 35, 0.08);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #26201A;
+      --bg-alt: #2F2820;
+      --ink: #F5EDE2;
+      --ink-soft: #B8A996;
+      --coral: #FF8A6A;
+      --coral-deep: #FF7A59;
+      --aqua: #52BBAE;
+      --aqua-soft: #2E3F3B;
+      --card: #332B23;
+      --shadow: 0 6px 0 rgba(0, 0, 0, 0.25);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #26201A;
+    --bg-alt: #2F2820;
+    --ink: #F5EDE2;
+    --ink-soft: #B8A996;
+    --coral: #FF8A6A;
+    --coral-deep: #FF7A59;
+    --aqua: #52BBAE;
+    --aqua-soft: #2E3F3B;
+    --card: #332B23;
+    --shadow: 0 6px 0 rgba(0, 0, 0, 0.25);
+  }
+  :root[data-theme="light"] {
+    --bg: #FFF9EF;
+    --bg-alt: #FDEED9;
+    --ink: #3E2F23;
+    --ink-soft: #7A6A5B;
+    --coral: #FF7A59;
+    --coral-deep: #E85F3E;
+    --aqua: #3AA79B;
+    --aqua-soft: #D6EFEA;
+    --sun: #FFC94D;
+    --card: #FFFFFF;
+    --shadow: 0 6px 0 rgba(62, 47, 35, 0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Hiragino Maru Gothic ProN", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3 { line-height: 1.4; font-weight: 700; text-wrap: balance; }
+  img, svg { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+
+  .container { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+
+  /* ===== Header ===== */
+  .header {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 19px; }
+  .logo svg { width: 34px; height: 34px; }
+  .header .btn { padding: 10px 22px; font-size: 14px; }
+
+  /* ===== Buttons ===== */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 16px 36px;
+    border-radius: 999px;
+    font-size: 16px; font-weight: 700;
+    background: var(--coral);
+    color: #FFF9EF;
+    box-shadow: 0 5px 0 var(--coral-deep);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    border: none; cursor: pointer;
+  }
+  .btn:hover { transform: translateY(2px); box-shadow: 0 3px 0 var(--coral-deep); }
+  .btn:focus-visible { outline: 3px solid var(--aqua); outline-offset: 3px; }
+  .btn--ghost {
+    background: transparent; color: var(--ink);
+    box-shadow: inset 0 0 0 2px var(--ink);
+  }
+  .btn--ghost:hover { transform: translateY(1px); }
+
+  /* ===== Hero ===== */
+  .hero {
+    position: relative;
+    padding: 56px 24px 140px;
+    text-align: center;
+    background: var(--bg-alt);
+  }
+  .hero__eyebrow {
+    display: inline-block;
+    background: var(--sun, #FFC94D);
+    color: #3E2F23;
+    font-size: 13px; font-weight: 700;
+    padding: 6px 18px; border-radius: 999px;
+    transform: rotate(-2deg);
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-size: clamp(30px, 5.5vw, 52px);
+    margin-bottom: 20px;
+  }
+  .hero h1 .wave-word { color: var(--aqua); }
+  .hero p.lead {
+    font-size: 17px; color: var(--ink-soft);
+    max-width: 34em; margin: 0 auto 36px;
+  }
+  .hero__cta-note { font-size: 13px; color: var(--ink-soft); margin-top: 12px; }
+
+  .hero__dog { margin: 40px auto 0; width: min(340px, 70vw); }
+
+  /* bubbles */
+  .bubble {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), color-mix(in srgb, var(--aqua) 35%, transparent));
+    opacity: 0.7;
+    animation: floatUp 9s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes floatUp {
+    from { transform: translateY(0) translateX(0); opacity: 0; }
+    15%  { opacity: 0.7; }
+    to   { transform: translateY(-420px) translateX(24px); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bubble { animation: none; opacity: 0.35; }
+    .btn { transition: none; }
+  }
+
+  /* wavy divider */
+  .wave { display: block; width: 100%; height: 60px; margin-top: -1px; }
+
+  /* ===== Sections ===== */
+  section { padding: 88px 0; }
+  .section-title {
+    text-align: center;
+    font-size: clamp(24px, 3.5vw, 34px);
+    margin-bottom: 12px;
+  }
+  .section-sub {
+    text-align: center; color: var(--ink-soft);
+    margin-bottom: 56px; font-size: 15px;
+  }
+  .paw-mark { display: inline-block; width: 28px; height: 28px; vertical-align: -4px; margin-right: 8px; }
+
+  /* ===== Empathy ===== */
+  .empathy { background: var(--bg); }
+  .empathy__list {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  }
+  .empathy__item {
+    background: var(--card);
+    border-radius: 24px;
+    padding: 32px 28px;
+    box-shadow: var(--shadow);
+    text-align: center;
+  }
+  .empathy__item .face { font-size: 40px; line-height: 1; margin-bottom: 16px; }
+  .empathy__item p { font-size: 15px; color: var(--ink-soft); }
+  .empathy__answer {
+    text-align: center; margin-top: 48px;
+    font-size: clamp(19px, 2.6vw, 24px); font-weight: 700;
+  }
+  .empathy__answer strong { color: var(--coral); }
+
+  /* ===== Menu ===== */
+  .menu { background: var(--aqua-soft); }
+  .menu__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .menu__card {
+    background: var(--card);
+    border-radius: 28px;
+    padding: 36px 28px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    position: relative;
+  }
+  .menu__card--popular::before {
+    content: "いちばん人気";
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%) rotate(-2deg);
+    background: var(--sun, #FFC94D); color: #3E2F23;
+    font-size: 12px; font-weight: 700;
+    padding: 4px 16px; border-radius: 999px;
+    white-space: nowrap;
+  }
+  .menu__icon { width: 64px; height: 64px; margin: 0 auto 20px; }
+  .menu__name { font-size: 19px; margin-bottom: 8px; }
+  .menu__desc { font-size: 14px; color: var(--ink-soft); margin-bottom: 20px; min-height: 3.4em; }
+  .menu__price { font-size: 24px; font-weight: 700; color: var(--aqua); }
+  .menu__price small { font-size: 13px; color: var(--ink-soft); font-weight: 400; }
+  .menu__note { text-align: center; font-size: 13px; color: var(--ink-soft); margin-top: 32px; }
+
+  /* ===== Features ===== */
+  .features__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .feature {
+    display: flex; gap: 20px; align-items: flex-start;
+    background: var(--card);
+    border-radius: 24px; padding: 28px;
+    box-shadow: var(--shadow);
+  }
+  .feature__num {
+    flex-shrink: 0;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--aqua); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 18px;
+  }
+  .feature h3 { font-size: 17px; margin-bottom: 6px; }
+  .feature p { font-size: 14px; color: var(--ink-soft); }
+
+  /* ===== Voice ===== */
+  .voice { background: var(--bg-alt); }
+  .voice__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .voice__card {
+    background: var(--card); border-radius: 24px;
+    padding: 28px; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .voice__stars { color: var(--sun, #FFC94D); letter-spacing: 2px; font-size: 15px; }
+  .voice__text { font-size: 14px; flex: 1; }
+  .voice__who { font-size: 13px; color: var(--ink-soft); }
+
+  /* ===== Flow ===== */
+  .flow__steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; counter-reset: step; }
+  .flow__step {
+    background: var(--card); border-radius: 24px;
+    padding: 28px 20px; box-shadow: var(--shadow);
+    text-align: center; position: relative;
+    counter-increment: step;
+  }
+  .flow__step::before {
+    content: "STEP " counter(step);
+    display: inline-block;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--coral);
+    margin-bottom: 12px;
+  }
+  .flow__step h3 { font-size: 16px; margin-bottom: 8px; }
+  .flow__step p { font-size: 13px; color: var(--ink-soft); }
+
+  /* ===== FAQ ===== */
+  .faq { background: var(--aqua-soft); }
+  .faq__list { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+  .faq details {
+    background: var(--card); border-radius: 20px;
+    box-shadow: var(--shadow);
+    padding: 20px 26px;
+  }
+  .faq summary {
+    font-weight: 700; font-size: 15px; cursor: pointer;
+    list-style: none; display: flex; align-items: center; gap: 12px;
+  }
+  .faq summary::before {
+    content: "Q"; flex-shrink: 0;
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--coral); color: #fff;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq details p { margin-top: 14px; font-size: 14px; color: var(--ink-soft); padding-left: 42px; }
+
+  /* ===== Final CTA ===== */
+  .final-cta {
+    background: var(--coral);
+    text-align: center;
+    padding: 96px 24px;
+    color: #FFF9EF;
+  }
+  .final-cta h2 { font-size: clamp(24px, 4vw, 36px); margin-bottom: 16px; }
+  .final-cta p { margin-bottom: 40px; opacity: 0.92; }
+  .final-cta .btn {
+    background: #FFF9EF; color: var(--coral-deep);
+    box-shadow: 0 5px 0 rgba(0,0,0,0.18);
+    font-size: 18px; padding: 20px 48px;
+  }
+  .final-cta .tel { margin-top: 28px; font-size: 14px; opacity: 0.92; }
+  .final-cta .tel strong { font-size: 22px; letter-spacing: 0.04em; font-variant-numeric: tabular-nums; }
+
+  /* ===== Sticky mobile CTA ===== */
+  .sticky-cta {
+    position: fixed; bottom: 16px; left: 16px; right: 16px; z-index: 60;
+    display: none;
+  }
+  .sticky-cta .btn { width: 100%; justify-content: center; padding: 18px; }
+
+  .footer {
+    background: var(--bg-alt);
+    text-align: center; padding: 40px 24px 120px;
+    font-size: 13px; color: var(--ink-soft);
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 820px) {
+    section { padding: 64px 0; }
+    .empathy__list, .menu__grid, .voice__grid { grid-template-columns: 1fr; }
+    .features__grid { grid-template-columns: 1fr; }
+    .flow__steps { grid-template-columns: repeat(2, 1fr); }
+    .header .btn { display: none; }
+    .sticky-cta { display: block; }
+  }
+  @media (max-width: 480px) {
+    .flow__steps { grid-template-columns: 1fr; }
+  }
+</style>
+
+<header class="header">
+  <div class="logo">
+    <svg viewBox="0 0 40 40" aria-hidden="true">
+      <ellipse cx="20" cy="26" rx="9" ry="7.5" fill="var(--coral)"/>
+      <ellipse cx="9" cy="16" rx="4" ry="5" fill="var(--coral)"/>
+      <ellipse cx="17" cy="10" rx="4" ry="5" fill="var(--coral)"/>
+      <ellipse cx="25" cy="10" rx="4" ry="5" fill="var(--coral)"/>
+      <ellipse cx="32" cy="16" rx="4" ry="5" fill="var(--coral)"/>
+    </svg>
+    ぷくぷくグルーミング
+  </div>
+  <a href="#reserve" class="btn">今すぐ予約する</a>
+</header>
+
+<!-- ===== Hero ===== -->
+<div class="hero">
+  <span class="bubble" style="width:38px;height:38px;left:12%;bottom:18%;animation-delay:0s;"></span>
+  <span class="bubble" style="width:22px;height:22px;left:22%;bottom:8%;animation-delay:2.5s;"></span>
+  <span class="bubble" style="width:30px;height:30px;right:18%;bottom:14%;animation-delay:1.2s;"></span>
+  <span class="bubble" style="width:16px;height:16px;right:10%;bottom:26%;animation-delay:4s;"></span>
+  <span class="bubble" style="width:26px;height:26px;left:44%;bottom:4%;animation-delay:5.5s;"></span>
+
+  <span class="hero__eyebrow">🛁 シャンプーからカットまで、まるごとおまかせ</span>
+  <h1>うちのコが、<br>お風呂を<span class="wave-word">好き</span>になった。</h1>
+  <p class="lead">ぷくぷくグルーミングは、ワンちゃん・ネコちゃんの「たのしい！」を一番に考えるグルーミングサロン。怖がりさんも、はじめてさんも、しっぽふりふりで帰れます。</p>
+  <a href="#reserve" class="btn">今すぐ予約する 🐾</a>
+  <p class="hero__cta-note">ネット予約は24時間受付・初回カウンセリング無料</p>
+
+  <svg class="hero__dog" viewBox="0 0 320 220" aria-label="泡だらけでうれしそうな犬のイラスト">
+    <!-- tub -->
+    <ellipse cx="160" cy="185" rx="120" ry="26" fill="var(--aqua)" opacity="0.9"/>
+    <rect x="40" y="150" width="240" height="38" rx="19" fill="var(--aqua)"/>
+    <!-- dog body -->
+    <ellipse cx="160" cy="140" rx="62" ry="46" fill="#E8B77D"/>
+    <!-- head -->
+    <circle cx="160" cy="86" r="44" fill="#E8B77D"/>
+    <!-- ears -->
+    <ellipse cx="122" cy="62" rx="14" ry="24" fill="#C98F55" transform="rotate(-24 122 62)"/>
+    <ellipse cx="198" cy="62" rx="14" ry="24" fill="#C98F55" transform="rotate(24 198 62)"/>
+    <!-- muzzle -->
+    <ellipse cx="160" cy="100" rx="22" ry="16" fill="#F7E3C4"/>
+    <ellipse cx="160" cy="94" rx="7" ry="5.5" fill="#3E2F23"/>
+    <path d="M148 106 q12 10 24 0" stroke="#3E2F23" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- eyes -->
+    <circle cx="142" cy="80" r="4.5" fill="#3E2F23"/>
+    <circle cx="178" cy="80" r="4.5" fill="#3E2F23"/>
+    <!-- blush -->
+    <circle cx="128" cy="94" r="7" fill="var(--coral)" opacity="0.45"/>
+    <circle cx="192" cy="94" r="7" fill="var(--coral)" opacity="0.45"/>
+    <!-- soap foam on head -->
+    <circle cx="140" cy="48" r="13" fill="#fff"/>
+    <circle cx="158" cy="42" r="16" fill="#fff"/>
+    <circle cx="178" cy="48" r="12" fill="#fff"/>
+    <circle cx="168" cy="54" r="10" fill="#fff" opacity="0.9"/>
+    <circle cx="148" cy="56" r="9" fill="#fff" opacity="0.9"/>
+    <!-- paws on tub edge -->
+    <ellipse cx="118" cy="152" rx="13" ry="10" fill="#F7E3C4"/>
+    <ellipse cx="202" cy="152" rx="13" ry="10" fill="#F7E3C4"/>
+  </svg>
+</div>
+<svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0,30 C240,60 480,0 720,30 C960,60 1200,0 1440,30 L1440,0 L0,0 Z" fill="var(--bg-alt)"/>
+</svg>
+
+<!-- ===== Empathy ===== -->
+<section class="empathy">
+  <div class="container">
+    <h2 class="section-title">こんなお悩み、ありませんか？</h2>
+    <p class="section-sub">飼い主さんの「どうしよう…」に、ぜんぶ寄り添います。</p>
+    <div class="empathy__list">
+      <div class="empathy__item">
+        <div class="face">🐶💦</div>
+        <p>お風呂もドライヤーも大きらい。<br>トリミングのたびに大暴れ…</p>
+      </div>
+      <div class="empathy__item">
+        <div class="face">😿</div>
+        <p>ネコを預けるのがはじめてで、<br>ストレスが心配…</p>
+      </div>
+      <div class="empathy__item">
+        <div class="face">🙀✂️</div>
+        <p>カットの仕上がりが毎回バラバラ。<br>安心してまかせられる所がない…</p>
+      </div>
+    </div>
+    <p class="empathy__answer">だいじょうぶ。<strong>「たのしいお風呂」から</strong>はじめましょう。</p>
+  </div>
+</section>
+
+<!-- ===== Menu ===== -->
+<section class="menu" id="menu">
+  <div class="container">
+    <h2 class="section-title">
+      <svg class="paw-mark" viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="26" rx="9" ry="7.5" fill="var(--coral)"/><ellipse cx="9" cy="16" rx="4" ry="5" fill="var(--coral)"/><ellipse cx="17" cy="10" rx="4" ry="5" fill="var(--coral)"/><ellipse cx="25" cy="10" rx="4" ry="5" fill="var(--coral)"/><ellipse cx="32" cy="16" rx="4" ry="5" fill="var(--coral)"/></svg>メニュー
+    </h2>
+    <p class="section-sub">サイズ・毛量・毛質にあわせたやさしいコースをご用意。</p>
+    <div class="menu__grid">
+      <div class="menu__card">
+        <svg class="menu__icon" viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="24" cy="26" r="12" fill="#fff" stroke="var(--aqua)" stroke-width="3"/>
+          <circle cx="40" cy="20" r="9" fill="#fff" stroke="var(--aqua)" stroke-width="3"/>
+          <circle cx="42" cy="38" r="11" fill="#fff" stroke="var(--aqua)" stroke-width="3"/>
+        </svg>
+        <h3 class="menu__name">ぷくぷくシャンプー</h3>
+        <p class="menu__desc">低刺激の泡でやさしく洗って、ふわふわドライまで。爪切り・耳そうじ付き。</p>
+        <div class="menu__price">¥3,800<small>〜（税込）</small></div>
+      </div>
+      <div class="menu__card menu__card--popular">
+        <svg class="menu__icon" viewBox="0 0 64 64" aria-hidden="true">
+          <path d="M14 14 L38 38 M38 14 L14 38" stroke="var(--coral)" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="18" cy="44" r="7" fill="none" stroke="var(--coral)" stroke-width="3.5"/>
+          <circle cx="44" cy="44" r="7" fill="none" stroke="var(--coral)" stroke-width="3.5"/>
+        </svg>
+        <h3 class="menu__name">まるごとカットコース</h3>
+        <p class="menu__desc">シャンプーコースに、なりたいスタイルのオーダーカットをプラス。写真持ち込みOK！</p>
+        <div class="menu__price">¥6,500<small>〜（税込）</small></div>
+      </div>
+      <div class="menu__card">
+        <svg class="menu__icon" viewBox="0 0 64 64" aria-hidden="true">
+          <path d="M32 12 C20 24 14 32 14 40 a18 14 0 0 0 36 0 c0-8-6-16-18-28z" fill="none" stroke="var(--aqua)" stroke-width="3.5" stroke-linejoin="round"/>
+          <path d="M26 40 q6 8 12 0" stroke="var(--aqua)" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </svg>
+        <h3 class="menu__name">ネコちゃん専用コース</h3>
+        <p class="menu__desc">ワンちゃんと会わない完全個室で、短時間・低ストレスのケアを。</p>
+        <div class="menu__price">¥5,500<small>〜（税込）</small></div>
+      </div>
+    </div>
+    <p class="menu__note">※料金は犬種・猫種、毛のからまり具合により変わります。予約時に目安をお伝えします。</p>
+  </div>
+</section>
+
+<!-- ===== Features ===== -->
+<section class="features">
+  <div class="container">
+    <h2 class="section-title">選ばれる4つの理由</h2>
+    <p class="section-sub">「うちのコ、帰りたがらないんです」と言われるサロンです。</p>
+    <div class="features__grid">
+      <div class="feature">
+        <div class="feature__num">1</div>
+        <div>
+          <h3>おやつとあそびで「ならし」から</h3>
+          <p>いきなり洗いません。おやつと声かけで道具に慣れてもらってからスタート。怖がりさん大歓迎です。</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature__num">2</div>
+        <div>
+          <h3>トリマー全員が愛玩動物看護師と連携</h3>
+          <p>皮膚の赤みや耳の汚れなど、気づいたことはその日のうちに共有。健康チェックメモをお渡しします。</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature__num">3</div>
+        <div>
+          <h3>ビフォーアフター写真をプレゼント</h3>
+          <p>仕上がりの写真をその場で撮影してLINEでお届け。SNSに載せたくなる一枚を狙います。</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature__num">4</div>
+        <div>
+          <h3>完全予約制・1頭ずつ担当</h3>
+          <p>同じ時間に詰め込みません。担当トリマーがカウンセリングから仕上げまで、ずっとそばに。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Voice ===== -->
+<section class="voice">
+  <div class="container">
+    <h2 class="section-title">飼い主さんの声</h2>
+    <p class="section-sub">しっぽの動きが、いちばんの口コミです。</p>
+    <div class="voice__grid">
+      <div class="voice__card">
+        <div class="voice__stars">★★★★★</div>
+        <p class="voice__text">ドライヤーが大の苦手だったのに、2回目からは自分からバスルームへ。「ならし」の時間を取ってくれるのが本当にありがたいです。</p>
+        <p class="voice__who">トイプードル・モカちゃん（3歳）の飼い主さん</p>
+      </div>
+      <div class="voice__card">
+        <div class="voice__stars">★★★★★</div>
+        <p class="voice__text">猫OKのサロンが近くになくて困っていました。完全個室で犬の鳴き声が聞こえないのが決め手。帰宅後もいつも通りで安心しました。</p>
+        <p class="voice__who">ラグドール・シロくん（5歳）の飼い主さん</p>
+      </div>
+      <div class="voice__card">
+        <div class="voice__stars">★★★★★</div>
+        <p class="voice__text">写真を見せたら想像以上のテディベアカットに！健康チェックメモで耳の汚れも教えてもらえて、病院にも早めに行けました。</p>
+        <p class="voice__who">ミックス・こむぎちゃん（2歳）の飼い主さん</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Flow ===== -->
+<section class="flow">
+  <div class="container">
+    <h2 class="section-title">ご利用の流れ</h2>
+    <p class="section-sub">はじめてでも、この4ステップだけ。</p>
+    <div class="flow__steps">
+      <div class="flow__step">
+        <h3>ネットで予約</h3>
+        <p>24時間いつでもOK。日時とコースを選ぶだけ。</p>
+      </div>
+      <div class="flow__step">
+        <h3>カウンセリング</h3>
+        <p>性格・苦手なこと・なりたいスタイルをヒアリング。</p>
+      </div>
+      <div class="flow__step">
+        <h3>たのしくケア</h3>
+        <p>ならし→シャンプー→カット。ようすはLINEでお知らせ。</p>
+      </div>
+      <div class="flow__step">
+        <h3>ふわふわでお迎え</h3>
+        <p>仕上がり写真と健康チェックメモをお渡しします。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="faq">
+  <div class="container">
+    <h2 class="section-title">よくあるご質問</h2>
+    <p class="section-sub">気になることは、予約前にぜんぶ解決。</p>
+    <div class="faq__list">
+      <details>
+        <summary>暴れてしまう子でも大丈夫ですか？</summary>
+        <p>はい、大歓迎です。初回は「ならし」に時間をかけ、無理だと判断したら途中でも中止して仕切り直します。回数を重ねて慣れていく子がほとんどです。</p>
+      </details>
+      <details>
+        <summary>予約のキャンセルはできますか？</summary>
+        <p>前日までのご連絡なら無料です。当日キャンセルは料金の50%を頂戴しています。体調不良の場合はお気軽にご相談ください。</p>
+      </details>
+      <details>
+        <summary>シニア犬・シニア猫もお願いできますか？</summary>
+        <p>体調を最優先に、短時間・休憩多めのコースをご提案します。かかりつけ医から許可をもらっていただけると安心です。</p>
+      </details>
+      <details>
+        <summary>所要時間はどのくらいですか？</summary>
+        <p>シャンプーコースで約1.5時間、カットコースで約2.5〜3時間が目安です。予約時に詳しい目安をお伝えします。</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Final CTA ===== -->
+<section class="final-cta" id="reserve">
+  <h2>つぎのお風呂は、<br>しっぽふりふりで。</h2>
+  <p>初回カウンセリング無料。まずは日時だけでもおさえてください。</p>
+  <a href="#" class="btn">ネットで予約する 🐾</a>
+  <p class="tel">お電話でも受付中<br><strong>0120-000-000</strong>（10:00〜18:00 / 水曜定休）</p>
+</section>
+
+<footer class="footer">
+  ぷくぷくグルーミング｜〇〇県〇〇市〇〇1-2-3｜© 2026 Pukupuku Grooming
+</footer>
+
+<div class="sticky-cta">
+  <a href="#reserve" class="btn">今すぐ予約する 🐾</a>
+</div>
