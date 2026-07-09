@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cafe Verde | 自家焙煎のイタリアンカフェ</title>
+<style>
+  :root {
+    --color-bg: #F7F3EA;
+    --color-primary: #5B6B4F;
+    --color-dark: #3B2A20;
+    --color-accent: #C4784E;
+    --color-cream: #EFE9DC;
+    --font-serif: "Fraunces", "Noto Serif JP", serif;
+    --font-sans: "Work Sans", "Noto Sans JP", sans-serif;
+    --space-section: 120px;
+    --space-section-mobile: 64px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-dark);
+    font-family: var(--font-sans);
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 { font-family: var(--font-serif); font-weight: 600; line-height: 1.4; }
+
+  img { max-width: 100%; display: block; }
+
+  a { color: inherit; text-decoration: none; }
+
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 80px;
+  }
+
+  .section-inner {
+    padding: var(--space-section) 0;
+  }
+
+  /* Header */
+  .header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 80px;
+    z-index: 100;
+    background: rgba(247, 243, 234, 0.85);
+    backdrop-filter: blur(6px);
+  }
+  .header__logo { font-family: var(--font-serif); font-size: 20px; font-weight: 600; }
+  .header__nav { display: flex; gap: 32px; font-size: 14px; }
+
+  /* Hero */
+  .section-hero {
+    position: relative;
+    height: 100vh;
+    min-height: 640px;
+    display: flex;
+    align-items: center;
+    color: #F7F3EA;
+  }
+  .hero__bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #6b7a5c 0%, #3B2A20 100%);
+  }
+  .hero__overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(59,42,32,0.2) 0%, rgba(59,42,32,0.55) 100%);
+  }
+  .hero__content {
+    position: relative;
+    max-width: 640px;
+    padding: 0 80px;
+  }
+  .hero__title {
+    font-size: clamp(32px, 5vw, 56px);
+    margin-bottom: 24px;
+  }
+  .hero__subtitle {
+    font-size: 18px;
+    margin-bottom: 40px;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-block;
+    padding: 16px 36px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 600;
+    transition: opacity 0.2s ease;
+  }
+  .btn--primary { background: var(--color-accent); color: #F7F3EA; }
+  .btn--outline { border: 1px solid var(--color-dark); color: var(--color-dark); }
+  .btn:hover { opacity: 0.85; }
+
+  /* Placeholder image blocks (real Fable images replace these) */
+  .ph {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.75);
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-align: center;
+    background: linear-gradient(135deg, #8a9a78 0%, #5B6B4F 55%, #3B2A20 100%);
+  }
+  .ph--warm { background: linear-gradient(135deg, #e7d9bd 0%, #C4784E 60%, #8a5a3b 100%); color: rgba(255,255,255,0.85); }
+
+  /* Concept */
+  .section-concept .container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .concept__title { font-size: 28px; margin-bottom: 24px; color: var(--color-primary); }
+  .concept__text { font-size: 15px; }
+  .concept__image .ph { aspect-ratio: 4/3; border-radius: 12px; }
+
+  /* Menu */
+  .section-menu { background: var(--color-cream); }
+  .menu__heading { text-align: center; font-size: 28px; margin-bottom: 64px; color: var(--color-primary); }
+  .menu__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  .menu__card { background: var(--color-bg); border-radius: 12px; overflow: hidden; }
+  .menu__card .ph { aspect-ratio: 4 / 3; }
+  .menu__card-body { padding: 24px; }
+  .menu__card-name { font-family: var(--font-serif); font-size: 18px; margin-bottom: 8px; }
+  .menu__card-desc { font-size: 14px; margin-bottom: 12px; }
+  .menu__card-price { font-size: 14px; font-weight: 600; color: var(--color-accent); }
+  .menu__footer { text-align: center; margin-top: 56px; }
+
+  /* Morning / Lunch (shared layout) */
+  .section-split .container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .section-split.reverse .container { direction: rtl; }
+  .section-split.reverse .container > * { direction: ltr; }
+  .split__title { font-size: 26px; margin-bottom: 20px; color: var(--color-primary); }
+  .split__text { font-size: 15px; margin-bottom: 32px; }
+  .split__image .ph { aspect-ratio: 4/3; border-radius: 12px; }
+
+  /* About */
+  .section-about { background: var(--color-cream); }
+  .about__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    text-align: center;
+  }
+  .about__item-title { font-family: var(--font-serif); font-size: 18px; margin-bottom: 12px; color: var(--color-primary); }
+  .about__item-text { font-size: 14px; }
+
+  /* Gallery */
+  .gallery__heading { text-align: center; font-size: 28px; margin-bottom: 56px; color: var(--color-primary); }
+  .gallery__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .gallery__grid .ph { aspect-ratio: 1 / 1; border-radius: 8px; }
+
+  /* Access */
+  .section-access { background: var(--color-cream); }
+  .access__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .access__map { aspect-ratio: 4 / 3; background: var(--color-dark); border-radius: 12px; }
+  .access__title { font-size: 26px; margin-bottom: 24px; color: var(--color-primary); }
+  .access__row { font-size: 14px; margin-bottom: 8px; }
+
+  /* CTA */
+  .section-cta {
+    background: var(--color-primary);
+    color: #F7F3EA;
+    text-align: center;
+  }
+  .cta__title { font-size: 28px; margin-bottom: 16px; }
+  .cta__subtitle { font-size: 15px; margin-bottom: 40px; }
+  .cta__buttons { display: flex; gap: 16px; justify-content: center; }
+  .section-cta .btn--outline { border-color: #F7F3EA; color: #F7F3EA; }
+
+  /* Footer */
+  .footer {
+    background: var(--color-dark);
+    color: var(--color-cream);
+    text-align: center;
+    padding: 40px 80px;
+    font-size: 13px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .container { padding: 0 24px; }
+    .header { padding: 20px 24px; }
+    .header__nav { display: none; }
+    :root { --space-section: var(--space-section-mobile); }
+    .section-concept .container,
+    .section-split .container,
+    .access__grid { grid-template-columns: 1fr; }
+    .section-split.reverse .container { direction: ltr; }
+    .menu__grid, .about__grid { grid-template-columns: repeat(2, 1fr); }
+    .gallery__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 480px) {
+    .menu__grid, .about__grid, .gallery__grid { grid-template-columns: 1fr; }
+    .hero__content { padding: 0 24px; }
+    .container { padding: 0 20px; }
+  }
+</style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="header__logo">Cafe Verde</div>
+    <nav class="header__nav">
+      <a href="#menu">Menu</a>
+      <a href="#morning">Morning</a>
+      <a href="#access">Access</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="section-hero">
+    <div class="hero__bg"></div>
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+      <h1 class="hero__title">一杯のエスプレッソに、<br>イタリアの朝を。</h1>
+      <p class="hero__subtitle">自家焙煎の豆と、丁寧な手仕事から生まれる、Cafe Verdeのモーニング。</p>
+      <a href="#menu" class="btn btn--primary">メニューを見る</a>
+    </div>
+  </section>
+
+  <!-- Concept -->
+  <section class="section-concept">
+    <div class="container section-inner">
+      <div class="concept__text-block">
+        <h2 class="concept__title">豆と向き合う時間が、<br>私たちの一日のはじまりです。</h2>
+        <p class="concept__text">
+          Cafe Verdeは、イタリアで学んだ自家焙煎の技術と、地元の食材を大切にする姿勢から生まれました。
+          忙しい朝でも、一杯のコーヒーが特別な時間になるように。派手さより、丁寧さを。
+          それが私たちの変わらないコンセプトです。
+        </p>
+      </div>
+      <div class="concept__image">
+        <div class="ph">[IMAGE: 手元]</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menu -->
+  <section class="section-menu" id="menu">
+    <div class="container section-inner">
+      <h2 class="menu__heading">Menu</h2>
+      <div class="menu__grid">
+        <div class="menu__card">
+          <div class="ph ph--warm">[IMAGE: コーヒー]</div>
+          <div class="menu__card-body">
+            <div class="menu__card-name">Espresso</div>
+            <p class="menu__card-desc">深煎りの自家焙煎豆で淹れる、濃厚な一杯。</p>
+            <div class="menu__card-price">¥480</div>
+          </div>
+        </div>
+        <div class="menu__card">
+          <div class="ph ph--warm">[IMAGE: コーヒー]</div>
+          <div class="menu__card-body">
+            <div class="menu__card-name">Cappuccino</div>
+            <p class="menu__card-desc">きめ細やかなフォームミルクとの絶妙なバランス。</p>
+            <div class="menu__card-price">¥550</div>
+          </div>
+        </div>
+        <div class="menu__card">
+          <div class="ph ph--warm">[IMAGE: 料理]</div>
+          <div class="menu__card-body">
+            <div class="menu__card-name">Croissant</div>
+            <p class="menu__card-desc">毎朝焼き上げる、バターの香り豊かな一品。</p>
+            <div class="menu__card-price">¥380</div>
+          </div>
+        </div>
+      </div>
+      <div class="menu__footer">
+        <a href="#" class="btn btn--outline">全メニューを見る</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Morning -->
+  <section class="section-split" id="morning">
+    <div class="container section-inner">
+      <div class="split__image">
+        <div class="ph ph--warm">[IMAGE: モーニング]</div>
+      </div>
+      <div class="split__text-block">
+        <h2 class="split__title">静かな朝は、Cafe Verdeで。</h2>
+        <p class="split__text">
+          7:00〜10:30、モーニングセットをご用意しています。焼きたてパンと本日のコーヒーで、
+          一日を穏やかに始めませんか。
+        </p>
+        <a href="#" class="btn btn--outline">モーニングセットを見る</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lunch -->
+  <section class="section-split reverse" id="lunch">
+    <div class="container section-inner">
+      <div class="split__text-block">
+        <h2 class="split__title">午後の活力に、軽やかな一皿を。</h2>
+        <p class="split__text">
+          11:30〜14:30はランチタイム。季節野菜のパニーニやサラダプレートなど、
+          軽やかで満足感のあるメニューをご用意しています。
+        </p>
+        <a href="#" class="btn btn--outline">ランチメニューを見る</a>
+      </div>
+      <div class="split__image">
+        <div class="ph">[IMAGE: ランチ]</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="section-about">
+    <div class="container section-inner">
+      <div class="about__grid">
+        <div class="about__item">
+          <div class="about__item-title">自家焙煎</div>
+          <p class="about__item-text">毎週、店内の焙煎機で豆を焼き上げています。</p>
+        </div>
+        <div class="about__item">
+          <div class="about__item-title">産地直送</div>
+          <p class="about__item-text">生産者と直接つながる豆だけを選定。</p>
+        </div>
+        <div class="about__item">
+          <div class="about__item-title">丁寧な一杯</div>
+          <p class="about__item-text">バリスタが一杯ずつハンドドリップで仕上げます。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="section-gallery">
+    <div class="container section-inner">
+      <h2 class="gallery__heading">Cafe Verdeの、いつもの風景。</h2>
+      <div class="gallery__grid">
+        <div class="ph">店内</div>
+        <div class="ph">植物</div>
+        <div class="ph ph--warm">手元</div>
+        <div class="ph ph--warm">料理</div>
+        <div class="ph ph--warm">コーヒー</div>
+        <div class="ph">余白素材</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Access -->
+  <section class="section-access" id="access">
+    <div class="container section-inner">
+      <div class="access__grid">
+        <div class="access__map"></div>
+        <div class="access__info">
+          <h2 class="access__title">Cafe Verdeへ。</h2>
+          <p class="access__row">〇〇県〇〇市〇〇1-2-3</p>
+          <p class="access__row">営業時間：7:00〜18:00（L.O. 17:30）</p>
+          <p class="access__row">定休日：毎週水曜日</p>
+          <p class="access__row">アクセス：〇〇駅から徒歩5分</p>
+          <div style="margin-top: 24px;">
+            <a href="#" class="btn btn--outline">地図アプリで開く</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section-cta">
+    <div class="container section-inner">
+      <h2 class="cta__title">今日という日を、一杯のコーヒーから。</h2>
+      <p class="cta__subtitle">Cafe Verdeで、あなたのお越しをお待ちしています。</p>
+      <div class="cta__buttons">
+        <a href="#access" class="btn btn--primary">アクセスを確認する</a>
+        <a href="#" class="btn btn--outline">Instagramをフォローする</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    &copy; 2026 Cafe Verde. All rights reserved.
+  </footer>
+
+</body>
+</html>
