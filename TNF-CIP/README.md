@@ -29,6 +29,10 @@ TNF-CIPは、AIクリエイティブ制作会社としての「社内OS」です
    バナー）に応じたテンプレートを使用する
 8. **09_ASSETS** に生成物・ムードボード・参考資料・スクリーンショットを蓄積し、
    会社全体のナレッジとして資産化する
+9. **10_PLAYBOOK** に、実案件を「案件開始〜納品」まで進めるための標準ワークフロー
+   （Client Intake / Project Start / Design Production / Review / Delivery /
+   GitHub Save の各Flow）と統合チェックリストがある。実案件に着手する際は、
+   まず10_PLAYBOOK/README.mdから読み始めること
 
 ## 部署構成
 
