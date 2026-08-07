@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import TiltCard from "./TiltCard";
 
 const GRADIENTS = [
   "linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%)",
@@ -28,44 +29,50 @@ function Card({
   index: number;
 }) {
   return (
-    <div className="relative h-64 w-[22rem] shrink-0 overflow-hidden rounded-2xl border border-white/10 sm:h-80 sm:w-[28rem]">
-      <div
-        className="absolute inset-0"
-        style={{ background: GRADIENTS[index % GRADIENTS.length] }}
-      />
-      {/* public/works/0X.jpg を配置すると自動的にここへ表示される */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url('${image}')` }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent" />
-      <div className="absolute bottom-0 left-0 p-6">
-        <p className="text-xs tracking-widest2 text-accent">{tag}</p>
-        <p className="mt-2 text-xl font-medium">{title}</p>
+    <TiltCard
+      maxTilt={8}
+      className="group h-56 w-[78vw] shrink-0 sm:h-72 sm:w-[24rem] lg:h-80 lg:w-[28rem]"
+    >
+      <div className="relative h-full w-full overflow-hidden rounded-2xl border border-white/10 shadow-lg shadow-black/30 transition-shadow duration-300 group-hover:border-accent/40 group-hover:shadow-accent/10">
+        <div
+          className="absolute inset-0"
+          style={{ background: GRADIENTS[index % GRADIENTS.length] }}
+        />
+        {/* public/works/0X.jpg を配置すると自動的にここへ表示される */}
+        <div
+          className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+          style={{ backgroundImage: `url('${image}')` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-transparent to-transparent" />
+        <div className="absolute bottom-0 left-0 p-5 sm:p-6">
+          <p className="text-xs tracking-widest2 text-accent">{tag}</p>
+          <p className="mt-2 text-lg font-medium sm:text-xl">{title}</p>
+        </div>
       </div>
-    </div>
+    </TiltCard>
   );
 }
 
 export default function MarqueeStrip() {
+  const prefersReducedMotion = useReducedMotion();
   const loop = [...WORKS, ...WORKS];
 
   return (
-    <section id="works" className="relative w-full overflow-hidden bg-ink py-28 sm:py-36">
-      <div className="mx-auto mb-14 max-w-5xl px-6 text-center">
+    <section id="works" className="relative w-full overflow-hidden bg-ink py-24 sm:py-36">
+      <div className="mx-auto mb-12 max-w-5xl px-6 text-center sm:mb-14">
         <p className="text-xs tracking-widest2 text-white/50">SELECTED WORKS</p>
-        <h2 className="mt-4 text-3xl font-bold sm:text-4xl">
+        <h2 className="text-balance mt-4 text-2xl font-bold sm:text-4xl">
           AIがつくった、いくつもの作例。
         </h2>
       </div>
 
       <div className="relative">
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-ink to-transparent sm:w-40" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-ink to-transparent sm:w-40" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-ink to-transparent sm:w-40" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-ink to-transparent sm:w-40" />
 
         <motion.div
-          className="flex gap-6 px-6"
-          animate={{ x: ["0%", "-50%"] }}
+          className="flex gap-5 px-6 sm:gap-6"
+          animate={prefersReducedMotion ? undefined : { x: ["0%", "-50%"] }}
           transition={{ duration: 32, ease: "linear", repeat: Infinity }}
         >
           {loop.map((work, i) => (
